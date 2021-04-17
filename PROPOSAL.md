@@ -65,3 +65,6 @@
 ### Evidence of Usage
 - Must generate a JSON/object and/or pre-fill database to store information on various songs to start with
 - Will add sample profiles for at least 2 users, each with their own playlists, comments on songs, etc.
+
+### GitHub for SPLOTCHIFY
+https://github.com/priyanka-kishore/SPLOTCHIFY
