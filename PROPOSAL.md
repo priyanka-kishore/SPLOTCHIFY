@@ -9,11 +9,13 @@
 - *SPLOTCHIFY* is all the karaoke you'll ever need. Access millions (kinda) of songs, karaoke-style, and create playlists of your favorites. Keep track of your highest score on a song and join the conversation on every single one. Can't find your favorite? Add it for us!
 
 ### Stretch Goals
-(May not be achieved by due date.)
+(May not be achieved by due date. But it would be cool if I did.)
 - View other user profiles
 - Show lyrics to a song
 - Use Spotify API to link to actual version of a song
     - Probably need user to sign in to their Spotify?
+- Link to SingKingKaraoke for selected number of songs
+    - Let user add YouTube link for a song they add
 - User can rate each song based on difficulty
 
 
@@ -34,13 +36,28 @@
 - MongoDB will store user account details (hashed passwords, emails, usernames), user song information (playlists, scores), and song information (song information, comments, etc).
 
 ### Security
-- idk
+- The modules used to achieve a secure webapp includes:
+    - Flask-Talisman (to set a CSP)
+    - Flask-WTF (for CSRF tokens)
 
 ### Blueprints
-- idk
+1. user account
+    - with view functions to login, register, update profile
+2. home/song database
+    - with view functions for index, specific song
+    - (maybe) top 10 or 100 songs (based on rating)
+3. user actions
+    - adding songs to database
+    - creating playlist
+    - commenting on a song
+4. App description/about page
+
+(Still kind of confused on blueprints, so may reorganize or come up with better blueprints!)
 
 ### Presentation/Appearance
-- idk
+- Multiple templates for various pages
+- Bootstrap
+- CSS
 
 ### New Python Package
 - Flask_Mail will be used either for user registration email authentication, or notifying user when someone comments on a user's favorite song (or under some other condition).
