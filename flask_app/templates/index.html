@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<b>POKEMONS</b>
+
+{# -- LIST EACH POKEMON -- #}
+{% for pokemon in pokemon_list %}
+    <ul>
+        <li>
+            <a href="{{url_for('pokemon_info',pokemon_name=pokemon)}}">{{pokemon}}</a>
+        </li>
+    </ul>
+{% endfor %}
+
+{% endblock %}
