@@ -3,13 +3,14 @@
 
 
 ### Creators
-- Priyanka Kishore
+Priyanka Kishore
 
 ### Description
-- *SPLOTCHIFY* is all the karaoke you'll ever need. Access millions (kinda) of songs, karaoke-style, and create playlists of your favorites. Keep track of your highest score on a song and join the conversation on every single one. Can't find your favorite? Add it for us!
+*SPLOTCHIFY* is all the karaoke you'll ever need. Access millions (kinda) of songs, karaoke-style, and create playlists of your favorites. Keep track of your highest score on a song and join the conversation on every single one. Can't find your favorite? Add it for us!
 
 ### Stretch Goals
 (May not be achieved by due date. But it would be cool if I did.)
+
 - View other user profiles
 - Show lyrics to a song
 - Use Spotify API to link to actual version of a song
