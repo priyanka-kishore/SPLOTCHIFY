@@ -17,6 +17,10 @@ from wtforms.validators import (
 from .models import User
 
 
+"""
+Search form to query database for specific songs
+- Song title
+"""
 class SearchForm(FlaskForm):
     search_query = StringField(
         "Query", validators=[InputRequired(), Length(min=1, max=100)]
@@ -24,13 +28,20 @@ class SearchForm(FlaskForm):
     submit = SubmitField("Search")
 
 
-class MovieReviewForm(FlaskForm):
-    text = TextAreaField(
-        "Comment", validators=[InputRequired(), Length(min=5, max=500)]
-    )
-    submit = SubmitField("Enter Comment")
+# class MovieReviewForm(FlaskForm):
+#     text = TextAreaField(
+#         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
+#     )
+#     submit = SubmitField("Enter Comment")
 
 
+"""
+Registration form for users to create an account:
+- Username
+- Email
+- Password
+- Confirm Password
+"""
 class RegistrationForm(FlaskForm):
     username = StringField(
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
