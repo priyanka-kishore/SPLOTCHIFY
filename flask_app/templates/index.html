@@ -1,15 +1,6 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
 {% block content %}
 
-<b>POKEMONS</b>
-
-{# -- LIST EACH POKEMON -- #}
-{% for pokemon in pokemon_list %}
-    <ul>
-        <li>
-            <a href="{{url_for('pokemon_info',pokemon_name=pokemon)}}">{{pokemon}}</a>
-        </li>
-    </ul>
-{% endfor %}
+<h1>this is the new index.html</h1>
 
 {% endblock %}
