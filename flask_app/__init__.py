@@ -25,6 +25,7 @@ bcrypt = Bcrypt()
 
 # from .routes import main
 from .users.routes import users
+from .songs.routes import songs
 
 
 def page_not_found(e):
@@ -43,6 +44,7 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
 
     app.register_blueprint(users)
+    app.register_blueprint(songs)
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "main.login"
