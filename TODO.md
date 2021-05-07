@@ -2,12 +2,12 @@
 
 
 ### Due April 26 – User Management
-- [ ] basic index.html template with user register/login/logout
-    - [ ] login/register forms
-- [ ] user able to register/login/logout properly
-    - [ ] set up routes
-- [ ] set up database with MongoDB
-- [ ] store user information in database
+- [x] basic index.html template with user register/login/logout
+    - [x] login/register forms
+- [x] user able to register/login/logout properly
+    - [x] set up routes
+- [x] set up database with MongoDB
+- [x] store user information in database
 
 
 ### Due April 28 - Song Database

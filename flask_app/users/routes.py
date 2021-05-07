@@ -14,7 +14,7 @@ users = Blueprint("users", __name__)
 @users.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return "you are logged in!"
+        return "you're logged in! pretend this is the song index" # TODO: redirect to song index
         # return redirect(url_for("movies.index"))
 
     form = RegistrationForm()
@@ -26,13 +26,13 @@ def register():
         return redirect(url_for("users.login")) # user must login after registering
 
     return render_template("register.html", title="Register", form=form)
-    # return render_template("register.html")
 
 
 @users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("movies.index"))
+        return "you're logged in! pretend this is the song index" # TODO: redirect to song index since already logged in
+        # return redirect(url_for("movies.index")) 
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -42,7 +42,7 @@ def login():
             login_user(user)
             print("~ ~ ~ USER LOGIN SUCCESS")
             return "~ ~ ~ USER LOGIN SUCCESS"
-            # return redirect(url_for("users.account"))
+            # return redirect(url_for("users.account")) # TODO: redirect to song index after logging in
         else:
             flash("Login failed. Check your username and/or password")
             return redirect(url_for("users.login"))
