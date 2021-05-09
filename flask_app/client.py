@@ -1,5 +1,8 @@
 import requests
 
+"""
+Client.py defines the classes that contains song information
+"""
 
 class Movie(object):
     def __init__(self, omdb_json, detailed=False):
@@ -16,6 +19,7 @@ class Movie(object):
         self.type = "Movie"
         self.poster_url = omdb_json["Poster"]
 
+    # returns string representation of this class
     def __repr__(self):
         return self.title
 
@@ -91,6 +95,8 @@ class MovieClient(object):
         movie = Movie(data, detailed=True)
 
         return movie
+
+# class KaraokeClient
 
 
 ## -- Example usage -- ###
