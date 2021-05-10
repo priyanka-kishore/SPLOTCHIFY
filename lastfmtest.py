@@ -18,7 +18,14 @@ searchstring = {
     "format": fmt
 }
 
-response = requests.request("GET", url, params=searchstring) # get data
+sess = requests.Session()
+req = requests.Request("GET", url, params=searchstring).prepare()
+print(req.url)
+
+# response = requests.request("GET", url, params=searchstring) # get data
+response = sess.send(req)
+
+
 data = json.loads(response.text) # convert string to json
 tracks = data['results']['trackmatches']['track'] # get list of all related tracks
 names = [(track['name'], track['artist']) for track in tracks] # make list of all (name, artist)

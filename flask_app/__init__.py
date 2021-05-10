@@ -22,6 +22,8 @@ import os
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+song_client = MovieClient(os.environ.get("OMDB_API_KEY"))
+
 
 # from .routes import main
 from .users.routes import users
