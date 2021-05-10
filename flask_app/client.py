@@ -21,10 +21,28 @@ class SongClient(object):
     def __init__(self, api_key):
         self.sess = requests.Session()
         self.pre_url = f"http://ws.audioscrobbler.com/2.0/?"
-        self.end_url = f"&api_key={api_key}}&format=json"
+        self.end_url = f"&api_key={api_key}&format=json"
         # http://ws.audioscrobbler.com/2.0/?  |   method={method}&track=Believe  |   &api_key=4e3cb83509f6bb0d13809776377788b9&format=json
 
+    def search_by_song(self, search_string):
+        """
+        Searches the API for the supplied search_string, and returns a list of Song
+        objects if the search was successful, or the error response if the search failed.
 
+        Only use this method if the user is using the search bar on the website
+        """
+
+        # parse string from search bar
+        search_string = "+".join(search_string.split()) # replace spaces with '+'
+
+        search_url = f"method=track.search&track={search_string}"
+
+        req = requests.Request("GET", url, params=searchstring).prepare()
+
+
+    # maybe
+    # def get_song_info(self, song):
+    #     pass
 
 # class MovieClient(object):
 #     def __init__(self, api_key):
