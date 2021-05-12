@@ -4,8 +4,6 @@ import requests
 Client.py defines the classes that contains song information
 """
 
-# DELETE 4e3cb83509f6bb0d13809776377788b9
-
 class Song(object): 
     def __init__(self, lastfm_json):
         self.title = lastfm_json['name']
@@ -20,112 +18,66 @@ class Song(object):
 class SongClient(object):
     def __init__(self, api_key):
         self.sess = requests.Session()
-        self.pre_url = f"http://ws.audioscrobbler.com/2.0/?"
-        self.end_url = f"&api_key={api_key}&format=json"
-        # http://ws.audioscrobbler.com/2.0/?  |   method={method}&track=Believe  |   &api_key=4e3cb83509f6bb0d13809776377788b9&format=json
-
+        self.url = f"http://ws.audioscrobbler.com/2.0/?api_key={api_key}&format=json&"
+    
     def search_by_song(self, search_string):
         """
-        Searches the API for the supplied search_string, and returns a list of Song
-        objects if the search was successful, or the error response if the search failed.
+        Searches the API for the supplied search_string.
+        Returns a list of Song objects if the search was successful, or the error response if the search failed.
 
         Only use this method if the user is using the search bar on the website
         """
+        print("SEARCH-BY-SONG")
 
         # parse string from search bar
-        search_string = "+".join(search_string.split()) # replace spaces with '+'
+        search_string = "+".join(search_string.split())
+        page = 1
 
-        search_url = f"method=track.search&track={search_string}"
+        # prepare url and get response from api
+        search_url = f"method=track.search&track={search_string}&page={page}"
+        resp = self.sess.get(self.url + search_url)
+        if resp.status_code != 200:
+            raise ValueError("Search request failed; Ensure correct API key")
+        data = resp.json()
 
-        req = requests.Request("GET", url, params=searchstring).prepare()
+        # errors from response
+        if not data['results']:
+            raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
 
+        # if not data['results']['opensearch:totalResults'] == 0:
+        #     return 'NO RESULTS. WOULD YOU LIKE TO ADD THIS SONG?' # TODO: take users to add song page
 
-    # maybe
-    # def get_song_info(self, song):
-    #     pass
+        # parse response
+        results_json = data['results']['trackmatches']['track'] # 30 per page
+        remaining_results = int(data['results']['opensearch:totalResults'])
 
-# class MovieClient(object):
-#     def __init__(self, api_key):
-#         self.sess = requests.Session()
-#         self.base_url = f"http://www.omdbapi.com/?apikey={api_key}&r=json&type=movie&"
+        result = []
 
-#     def search(self, search_string):
-#         """
-#         Searches the API for the supplied search_string, and returns
-#         a list of Media objects if the search was successful, or the error response
-#         if the search failed.
+        # TODO: pagination -- We may have more results than are first displayed
+        # while remaining_results != 0:
+        #     for item_json in results_json:
+        #         result.append(Song(item_json))
+        #         remaining_results -= len(results_json)
+            
+        #     page += 1
+        #     print("page = {}".format(page))
 
-#         Only use this method if the user is using the search bar on the website.
-#         """
-#         search_string = "+".join(search_string.split())
-#         page = 1
+        #     search_url = f"method=track.search&track={search_string}&page={page}"
+        #     resp = self.sess.get(self.url + search_url)
+        #     if resp.status_code != 200 or not resp.json()['results']:
+        #         break
+        #     results_json = data['results']['trackmatches']['track']
 
-#         search_url = f"s={search_string}&page={page}"
+        for item_json in results_json:
+            result.append(Song(item_json))
 
-#         resp = self.sess.get(self.base_url + search_url)
+        return result
 
-#         if resp.status_code != 200:
-#             raise ValueError(
-#                 "Search request failed; make sure your API key is correct and authorized"
-#             )
+    def search_by_artist(self, search_artist):
+        """
+        Searches the API for the supplied search_artist.
+        Returns a list of Song objects if the search was successful, or the error response if the search failed.
 
-#         data = resp.json()
-
-#         if data["Response"] == "False":
-#             raise ValueError(f'[ERROR]: Error retrieving results: \'{data["Error"]}\' ')
-
-#         search_results_json = data["Search"]
-#         remaining_results = int(data["totalResults"])
-
-#         result = []
-
-#         ## We may have more results than are first displayed
-#         while remaining_results != 0:
-#             for item_json in search_results_json:
-#                 result.append(Movie(item_json))
-#                 remaining_results -= len(search_results_json)
-#             page += 1
-#             search_url = f"s={search_string}&page={page}"
-#             resp = self.sess.get(self.base_url + search_url)
-#             if resp.status_code != 200 or resp.json()["Response"] == "False":
-#                 break
-#             search_results_json = resp.json()["Search"]
-
-#         return result
-
-#     def retrieve_movie_by_id(self, imdb_id):
-#         """
-#         Use to obtain a Movie object representing the movie identified by
-#         the supplied imdb_id
-#         """
-#         movie_url = self.base_url + f"i={imdb_id}&plot=full"
-
-#         resp = self.sess.get(movie_url)
-
-#         if resp.status_code != 200:
-#             raise ValueError(
-#                 "Search request failed; make sure your API key is correct and authorized"
-#             )
-
-#         data = resp.json()
-
-#         if data["Response"] == "False":
-#             raise ValueError(f'Error retrieving results: \'{data["Error"]}\' ')
-
-#         movie = Movie(data, detailed=True)
-
-#         return movie
-
-
-# ## -- Example usage -- ###
-# if __name__ == "__main__":
-#     import os
-
-#     client = MovieClient(os.environ.get("OMDB_API_KEY"))
-
-#     movies = client.search("guardians")
-
-#     for movie in movies:
-#         print(movie)
-
-#     print(len(movies))
+        Only use this method if the user is using the search bar on the website
+        """
+        pass

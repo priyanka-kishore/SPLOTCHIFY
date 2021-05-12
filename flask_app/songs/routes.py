@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
-from .. import bcrypt
+from .. import song_client
 from ..models import User
 from ..forms import SearchForm
 
@@ -16,12 +16,33 @@ def index():
     form = SearchForm()
 
     if form.validate_on_submit():
-        # TODO: redirect to query_results() passing in data from form
+        return redirect(url_for("songs.song_query_results", query=form.search_query.data))
         # TODO: actually show results
-        return "you searched for: {}".format(form.search_query.data) 
+        # return "you searched for: {}".format(form.search_query.data) 
     
     return render_template("index.html", form=form)
 
-# TODO: def query_results()
 
-# TODO: def song_detail()
+@songs.route("/search-song/<query>", methods=["GET"])
+def song_query_results(query):
+    try:
+        results = song_client.search_by_song(query)
+    except ValueError as e:
+        flash(str(e))
+        return redirect(url_for("songs.index")) # go back to search form
+
+    # return "your results: {}".format(results)
+    return render_template("query.html", results=results)
+
+
+# TODO
+# @songs.route("/search-artist/<query>", methods=["GET"])
+# def artist_query_results(query):
+#     try:
+#         results = song_client.search_by_artist(query)
+#     except ValueError as e:
+#         flash(str(e))
+#         return redirect(url_for("songs.index")) # go back to search form
+
+#     return "your results: {}".format(results)
+#     # return render_template("query.html", results=results)

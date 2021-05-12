@@ -23,6 +23,7 @@ req = requests.Request("GET", url, params=searchstring).prepare()
 resp = sess.get(url, params=searchstring)
 print(resp.status_code)
 print(req.url)
+print(type(req.url))
 
 # response = requests.request("GET", url, params=searchstring) # get data
 response = sess.send(req)
