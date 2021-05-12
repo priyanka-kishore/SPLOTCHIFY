@@ -16,13 +16,13 @@ from datetime import datetime
 import os
 
 # local
-
+from .client import SongClient
 
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-song_client = MovieClient(os.environ.get("OMDB_API_KEY"))
+song_client = SongClient(os.environ.get("LASTFM_API_KEY"))
 
 
 # from .routes import main
