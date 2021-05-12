@@ -52,4 +52,5 @@ def song_query_results(query):
 def song_detail(song_id):
     print("LOOKING FOR: {}".format(song_id))
     song_info = song_client.get_song_info(song_id)
-    return song_info
+    # return song_info
+    return render_template("song_detail.html", song_info=song_info)

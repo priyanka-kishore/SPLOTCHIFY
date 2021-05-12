@@ -6,14 +6,16 @@ Client.py defines the classes that contains song information
 
 class Song(object): 
     def __init__(self, lastfm_json):
+        print(" ~ ~ init_song ~ ~")
+        print(lastfm_json)
         self.title = lastfm_json['name']
         self.artist = lastfm_json['artist']
         self.num_listeners = lastfm_json['listeners']
         self.url = lastfm_json['url']
         if lastfm_json['mbid']:
             self.mbid = lastfm_json['mbid']
-        else:
-            self.mbid = 'NO_MBID'
+        else: # generate new mbid
+            self.mbid = 'splotchify_id.{title}.{artist}'.format(title=self.title, artist=self.artist)
     
     def __repr__(self):
         return "{title} -- {artist}".format(title=self.title, artist=self.artist)
@@ -72,6 +74,7 @@ class SongClient(object):
         #     results_json = data['results']['trackmatches']['track']
 
         for item_json in results_json:
+            print(item_json)
             result.append(Song(item_json))
 
         return result
@@ -83,11 +86,21 @@ class SongClient(object):
         """
         print(" - = GETTING SONG ID {} = -".format(song_id))
 
-        if (song_id == 'NO_MBID'):
-            data = {
-                "track": "something i guess"
-            }
-        
+        song_data = {
+            "name": None,
+            "artist": None,
+            # basic data ^ ----------
+            "listeners": None,
+            "playcount": None,
+            "album_title": None
+        }
+
+        # just grab song name and artist if no page exists for them
+        if (song_id.split('.')[0] == 'splotchify_id'): 
+            song_data['name'] = song_id.split('.')[1]
+            song_data['artist'] = song_id.split('.')[2]
+
+            return song_data
         else:
             song_url = self.url + f"method=track.getInfo&mbid={song_id}"
             resp = self.sess.get(song_url)
@@ -95,18 +108,19 @@ class SongClient(object):
                 raise ValueError("Search request failed; Ensure correct API key")
             data = resp.json()
 
-            print(data)
-
             # errors from response
             if 'error' in data:
                 raise ValueError(f'[ERROR]: Error retrieving results: \'{data["message"]}\'')
 
-            name = data['track']['name']
-            artists = []
-            album_title = None
+            song_data['name'] = data['track']['name']
+            song_data['artist'] = data['track']['artist']['name']
+            song_data['listeners'] = '{:,}'.format(int(data['track']['listeners']))
+            song_data['playcount'] = '{:,}'.format(int(data['track']['playcount']))
+            song_data['album_title'] = data['track']['album']['title']
 
+            return song_data
 
-        return data
+        
 
 
 
