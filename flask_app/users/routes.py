@@ -57,6 +57,10 @@ def logout():
     print("~ ~ ~ USER LOGOUT SUCCESS")
     return redirect(url_for("users.login"))
 
+@users.route("/profile", methods=["GET"])
+@login_required
+def profile():
+    return render_template("profile.html", username=current_user.username)
 
 # @users.route("/account", methods=["GET", "POST"])
 # @login_required
