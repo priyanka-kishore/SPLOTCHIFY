@@ -46,3 +46,9 @@ def song_query_results(query):
 
 #     return "your results: {}".format(results)
 #     # return render_template("query.html", results=results)
+
+
+# @songs.route("/song/<song_id>", method=["GET"])
+# def song_detail(song_id):
+#     # return "this is your song_id: {}".format(song_id)
+#     pass

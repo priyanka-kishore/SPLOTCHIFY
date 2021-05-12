@@ -41,8 +41,7 @@ def login():
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             print("~ ~ ~ USER LOGIN SUCCESS")
-            return "~ ~ ~ USER LOGIN SUCCESS"
-            # return redirect(url_for("users.account")) # TODO: redirect to song index after logging in
+            return redirect(url_for("songs.index")) # TODO: redirect to song index after logging in
         else:
             flash("Login failed. Check your username and/or password")
             return redirect(url_for("users.login"))
