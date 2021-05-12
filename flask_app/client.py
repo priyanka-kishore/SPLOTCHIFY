@@ -15,7 +15,7 @@ class Song(object):
         if lastfm_json['mbid']:
             self.mbid = lastfm_json['mbid']
         else: # generate new mbid
-            self.mbid = 'splotchify_id.{title}.{artist}'.format(title=self.title, artist=self.artist)
+            self.mbid = 'splotchify_id..{title}..{artist}'.format(title=self.title, artist=self.artist)
     
     def __repr__(self):
         return "{title} -- {artist}".format(title=self.title, artist=self.artist)
@@ -96,9 +96,9 @@ class SongClient(object):
         }
 
         # just grab song name and artist if no page exists for them
-        if (song_id.split('.')[0] == 'splotchify_id'): 
-            song_data['name'] = song_id.split('.')[1]
-            song_data['artist'] = song_id.split('.')[2]
+        if (song_id.split('..')[0] == 'splotchify_id'): 
+            song_data['name'] = song_id.split('..')[1]
+            song_data['artist'] = song_id.split('..')[2]
 
             return song_data
         else:
@@ -119,6 +119,9 @@ class SongClient(object):
             song_data['album_title'] = data['track']['album']['title']
 
             return song_data
+
+    def get_lyrics(self, song):
+        pass
 
         
 
