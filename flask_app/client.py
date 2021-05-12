@@ -8,9 +8,12 @@ class Song(object):
     def __init__(self, lastfm_json):
         self.title = lastfm_json['name']
         self.artist = lastfm_json['artist']
-        self.mbid = lastfm_json['mbid']
         self.num_listeners = lastfm_json['listeners']
         self.url = lastfm_json['url']
+        if lastfm_json['mbid']:
+            self.mbid = lastfm_json['mbid']
+        else:
+            self.mbid = 'NO_MBID'
     
     def __repr__(self):
         return "{title} -- {artist}".format(title=self.title, artist=self.artist)
@@ -73,11 +76,38 @@ class SongClient(object):
 
         return result
 
-    def search_by_artist(self, search_artist):
-        """
-        Searches the API for the supplied search_artist.
-        Returns a list of Song objects if the search was successful, or the error response if the search failed.
 
-        Only use this method if the user is using the search bar on the website
+    def get_song_info(self, song_id):
         """
-        pass
+        Returns a Song object from the database, or the error response if the retrieval fails.
+        """
+        print(" - = GETTING SONG ID {} = -".format(song_id))
+
+        if (song_id == 'NO_MBID'):
+            data = {
+                "track": "something i guess"
+            }
+        
+        else:
+            song_url = self.url + f"method=track.getInfo&mbid={song_id}"
+            resp = self.sess.get(song_url)
+            if resp.status_code != 200:
+                raise ValueError("Search request failed; Ensure correct API key")
+            data = resp.json()
+
+            print(data)
+
+            # errors from response
+            if 'error' in data:
+                raise ValueError(f'[ERROR]: Error retrieving results: \'{data["message"]}\'')
+
+            name = data['track']['name']
+            artists = []
+            album_title = None
+
+
+        return data
+
+
+
+
