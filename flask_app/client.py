@@ -25,14 +25,14 @@ class SongClient(object):
         self.sess = requests.Session()
         self.url = f"http://ws.audioscrobbler.com/2.0/?api_key={api_key}&format=json&"
     
-    def search_by_song(self, search_string):
+    def search_song(self, search_string):
         """
         Searches the API for the supplied search_string.
         Returns a list of Song objects if the search was successful, or the error response if the search failed.
 
         Only use this method if the user is using the search bar on the website
         """
-        print("SEARCH-BY-SONG")
+        print("SEARCH SONG")
 
         # parse string from search bar
         search_string = "+".join(search_string.split())
@@ -89,10 +89,11 @@ class SongClient(object):
         song_data = {
             "name": None,
             "artist": None,
+            "song_id": song_id,
             # basic data ^ ----------
             "listeners": None,
             "playcount": None,
-            "album_title": None
+            "album_title": None,
         }
 
         # just grab song name and artist if no page exists for them

@@ -7,28 +7,149 @@
 
 {% if song_info %}
 
-    {# Display card for the movie details #}
+    {# ------------ Display card for the movie details ------------ #}
     <div class="row">
-    <div class="col">
-        <div class="card text-center">
-        <div class="card-header">
-            {{ song_info.name }}
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h1>{{ song_info.name }}</h1>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Artist:</b> {{ song_info.artist }}</li>
+                        {% if song_info.album_title %}
+                            <li class="list-group-item"><b>Album:</b> {{ song_info.album_title }}</li>
+                        {% endif %}
+                        {% if song_info.listeners %}
+                            <li class="list-group-item"><b>Listener count:</b> {{ song_info.listeners }}</li>
+                        {% endif %}
+                        {% if song_info.playcount %}
+                            <li class="list-group-item"><b>Stream count:</b> {{ song_info.playcount }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Artist:</b> {{ song_info.artist }}</li>
-            {% if song_info.album_title %}
-                <li class="list-group-item"><b>Album:</b> {{ song_info.album_title }}</li>
-            {% endif %}
-            {% if song_info.listeners %}
-                <li class="list-group-item"><b>Listener count:</b> {{ song_info.listeners }}</li>
-            {% endif %}
-            {% if song_info.playcount %}
-                <li class="list-group-item"><b>Stream count:</b> {{ song_info.playcount }}</li>
-            {% endif %}
-            </ul>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h2>Lyrics</h2>
+                </div>
+                <div class="card-body">
+                    That my best friend, she a real bad bitch<br>
+                    Got her own money, she 'on't need no nig'<br>
+                    On the dance floor, she had two, three drinks<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    That's my best friend, she a real bad bitch<br>
+                    Drive her own car, she 'on't need no Lyft<br>
+                    In the strip club, know my girl gon' tip<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    Beep-beep, is that my bestie in a Tessie?<br>
+                    Fresh blow out, skin on tan, ooh, she ready<br>
+                    Bitch, you look goodt, with a T at the end<br>
+                    I'ma hype her every time, that my motherfuckin' friend<br>
+                    She been down since the jellies and the Volvos<br>
+                    Got me steppin' out that Jeep, got Manolo's<br>
+                    When we pull up to the scene, they be filled with jealousy<br>
+                    If a bitch get finicky, she gon' bring that energy (pop-pop-pop)<br>
+                    I hit her phone with the tea, like, "Bitch, guess what?"<br>
+                    All the rich ass boys wanna fuck on us<br>
+                    All this ass sittin' up, you can look, don't touch<br>
+                    In our bag, bust some bands every time we link up<br>
+                    That my best friend, she a real bad bitch<br>
+                    Got her own money, she 'on't need no nig'<br>
+                    On the dance floor, she had two, three drinks<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    That's my best friend, she a real bad bitch<br>
+                    Drive her own car, she 'on't need no Lyft<br>
+                    In the strip club, know my girl gon' tip<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    That my best friend, if you need a freak<br>
+                    I ain't dumb, but motherfucker, she my Tweedledee<br>
+                    If she ride for me (ride), she 'on't need a key<br>
+                    If you sideways, she'll straighten you if need to be<br>
+                    And she so bad that I just can't take that bitch nowhere<br>
+                    She off her fifth shot, said, "mmm-mmm, don't go there"<br>
+                    Bitch, break her back, she protect and attack<br>
+                    Get that strap like them buckle, foot on neck, give no air<br>
+                    Whole world wanna be us<br>
+                    And my main bitch, she my day-one<br>
+                    On my way, bitch, let you get drunk<br>
+                    Let's celebrate 'cause we the baddest in the club<br>
+                    That my best friend, she a real bad bitch<br>
+                    Got her own money, she 'on't need no nig'<br>
+                    On the dance floor, she had two, three drinks<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    That's my best friend, she a real bad bitch<br>
+                    Drive her own car, she 'on't need no Lyft<br>
+                    In the strip club, know my girl gon' tip<br>
+                    Now she twerkin', she throw it out and come back in<br>
+                    Ha, best friend, you the baddest and you know it (you know)<br>
+                    Uh-oh, girl, I think our booty growin' (ayy-yeah)<br>
+                    Fuck it up in the mirror, hit them poses (pose)<br>
+                    Best friends, and you motherfuckin' glowin' (woo-woo)<br>
+                    Best friends, and your wrist look like it's frozen (it's frozen)<br>
+                    Uh-oh, girl, I think our booty growin' (uh-oh)<br>
+                    Fuck it up in the mirror, hit them poses (hit that pose)<br>
+                    Best friend, you my motherfuckin' soulmate<br>
+                </div>
+            </div>
         </div>
-        </div>
+    </div>
+
+
+    {% if current_user.is_authenticated %}
+    {# ------------ Song comment submission form ------------ #}
+    <div class="row">
+      <div class="col">
+        <form method="POST" action="">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            <h3>{{ form.text.label }}</h3>
+            {{ form.text(class="form-control") }}
+
+            {{ form.favorited() }} Favorite this song!
+    
+            {% if form.text.errors %}
+            <div class="alert alert-warning" role="alert">
+              {% for error in form.text.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+    
+          </div>
+          {{ form.submit() }}
+        </form>
+      </div>
+    </div>
+    {% endif %}
+
+
+    {# ------------ All comments on this song ------------ #}
+    <div class="row">
+    <div class="col-md-12">
+        <h1> Comments <small class="float-right">{{ comments|length }} comments</small></h1>
+        <ul class="media-list">
+        {% for comment in comments %}
+        <li class="media review-item">
+            <div class="media-body">
+            <span class="float-right">
+                <small>{{ comment.date }}</small>
+            </span>
+            <a href="{{ url_for('songs.song_detail', song_id=song_info.song_id) }}">
+                <strong>@{{ comment.commenter.username }}</strong>
+            </a>
+            <p>
+                {{ comment.content }}
+            </p>
+            {# TODO: add if its user's favorite, add what user's score is #}
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
     </div>
     </div>
 

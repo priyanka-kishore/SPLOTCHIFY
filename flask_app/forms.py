@@ -2,7 +2,7 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
-from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField
+from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField, BooleanField
 from wtforms.validators import (
     InputRequired,
     DataRequired,
@@ -12,7 +12,6 @@ from wtforms.validators import (
     EqualTo,
     ValidationError,
 )
-
 
 from .models import User
 
@@ -27,13 +26,13 @@ class SearchForm(FlaskForm):
     )
     submit = SubmitField("Search")
 
-
-# class MovieReviewForm(FlaskForm):
-#     text = TextAreaField(
-#         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
-#     )
-#     submit = SubmitField("Enter Comment")
-
+"""
+CommentForm to comment on and favorite specific songs
+"""
+class SongCommentForm(FlaskForm):
+    text = TextAreaField("What do you think?", validators=[InputRequired(), Length(min=5, max=500)])
+    favorited = BooleanField(default=True)
+    submit = SubmitField("Comment")
 
 """
 Registration form for users to create an account:
@@ -70,14 +69,14 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-class UpdateUsernameForm(FlaskForm):
-    username = StringField(
-        "Username", validators=[InputRequired(), Length(min=1, max=40)]
-    )
-    submit = SubmitField("Update Username")
+# class UpdateUsernameForm(FlaskForm):
+#     username = StringField(
+#         "Username", validators=[InputRequired(), Length(min=1, max=40)]
+#     )
+#     submit = SubmitField("Update Username")
 
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.objects(username=username.data).first()
-            if user is not None:
-                raise ValidationError("That username is already taken")
+#     def validate_username(self, username):
+#         if username.data != current_user.username:
+#             user = User.objects(username=username.data).first()
+#             if user is not None:
+#                 raise ValidationError("That username is already taken")
