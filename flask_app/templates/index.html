@@ -1,7 +1,7 @@
 {% extends "header.html" %}
 {% block content %}
 
-<h1>Care for some Karaoke?</h1>
+<h1 style="padding-top: 80;">Care for some Karaoke?</h1>
 
 <div class="row">
     <div class="col">
@@ -19,26 +19,35 @@
 
             {# -------------- FOR SEARCH BOX -------------- #}
 
-            {{ form.csrf_token }}
-            {{ form.search_query(class="form-control", placeholder="Search") }}
+            <div style="padding: 80;">
+                {{ form.csrf_token }}
+                {{ form.search_query(class="form-control", placeholder="Search") }}
 
-            {# -------------- FOR SHOWING ERROR MESSAGES -------------- #}
+                {# -------------- FOR SHOWING ERROR MESSAGES -------------- #}
 
-            {% if form.search_query.errors %}
-            <div class="alert alert-warning" role="alert">
-                {% for error in form.search_query.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
+                {% if form.search_query.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in form.search_query.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {# -------------- FORM SUBMIT BUTTON -------------- #}
+
+                {{ form.submit(class="btn btn-outline-success") }}
             </div>
-            {% endif %}
-
-            {# -------------- FORM SUBMIT BUTTON -------------- #}
-
-            {{ form.submit(class="btn btn-outline-success") }}
+            
+            <h2>Pick a song, any song!</h2>
         </form>
     </div>
-    <div class="col">
-        <h2>Pick a song, any song!</h2>
+</div>
+<hr>
+<div class="row">
+    <div>
+        <h2 style="text-align: center; padding: 50;">Welcome to Splotchify!</h2>
+        <h3 style="text-align: center; padding: 30;">SPLOTCHIFY is all the karaoke you'll ever need.</h3>
+        <p style="text-align: center; padding: 30;">Access millions (kinda) of songs, karaoke-style, and join the conversation on every single one. Make sure to favorite the hits you love. Can't find your favorite? Add it for us!</p>
     </div>
 </div>
 
