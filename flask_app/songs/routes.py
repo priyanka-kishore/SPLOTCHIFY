@@ -57,3 +57,7 @@ def song_detail(song_id):
     comments = Comment.objects(song_id=song_id)
 
     return render_template("song_detail.html", form=form, song_info=song_info, comments=comments)
+
+@songs.route("/create-playlist", methods=["GET"])
+def create_playlist():
+    return "here's the create a playlist form!"

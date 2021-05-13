@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
 from ..forms import RegistrationForm, LoginForm
-from ..models import User
+from ..models import Comment, User
 
 users = Blueprint("users", __name__)
 
@@ -56,24 +56,24 @@ def logout():
     print("~ ~ ~ USER LOGOUT SUCCESS")
     return redirect(url_for("users.login"))
 
-@users.route("/profile", methods=["GET"])
+@users.route("/profile/<user>", methods=["GET"])
 @login_required
-def profile():
-    return render_template("profile.html", username=current_user.username)
+def profile(user):
+    # TODO: create a playlist of songs
+    # form = PlaylistForm()
+    # if form.validate_on_submit():
+        # comment = Comment(
+        #     commenter=current_user._get_current_object(),
+        #     favorite=form.favorited.data,
+        #     content=form.text.data,
+        #     date=current_time(),
+        #     song_id=song_id,
+        #     song_title=song_info['name'],
+        #     song_artist=song_info['artist']
+        # )
+        # comment.save() # save user's new comment if submitted!
+        # return redirect(request.path) # reload page
 
-# @users.route("/account", methods=["GET", "POST"])
-# @login_required
-# def account():
-#     username_form = UpdateUsernameForm()
+    user_comments = Comment.objects(commenter=current_user._get_current_object())
 
-#     if username_form.validate_on_submit():
-#         # current_user.username = username_form.username.data
-#         current_user.modify(username=username_form.username.data)
-#         current_user.save()
-#         return redirect(url_for("users.account"))
-
-#     return render_template(
-#         "account.html",
-#         title="Account",
-#         username_form=username_form,
-#     )
+    return render_template("profile.html", username=current_user.username, comments=user_comments)

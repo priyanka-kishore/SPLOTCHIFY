@@ -2,7 +2,7 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
-from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField, BooleanField
+from wtforms import StringField, IntegerField, SubmitField, TextAreaField, PasswordField, BooleanField, FieldList
 from wtforms.validators import (
     InputRequired,
     DataRequired,
@@ -68,6 +68,11 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired()])
     submit = SubmitField("Login")
 
+
+class PlaylistForm(FlaskForm):
+    name = StringField("Name of playlist", validators=[InputRequired(), Length(min=1, max=40)])
+    description = StringField("Description of your playlist", validators=[Length(min=1, max=100)])
+    create = SubmitField("Create playlist")
 
 # class UpdateUsernameForm(FlaskForm):
 #     username = StringField(

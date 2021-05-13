@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col" style="text-align: center;">
         <h1>
-            Hello, {{username}}.
+            Welcome, {{username}}.
         </h1>
         <h6>
             This is your SPLOTCHIFY profile
@@ -14,6 +14,43 @@
                 Search a song!
             </a>
         </b>
+    </div>
+</div>
+
+{#
+<div class="row">
+    <div class="col">
+        <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
+    </div>
+    <div class="col">
+        <h2></h2>
+    </div>
+</div>
+#}
+<div class="row">
+    <div class="col">
+        <h1> {{ username }}'s Karaoke Comments <small class="float-right">{{ comments.count() }} comments on karaoke songs</small></h1>
+        <ul class="media-list">
+            {% for comment in comments %}
+            <li class="media review-item">
+                <div class="media-body">
+                    <span class="float-right">
+                        <small>{{ comment.date }}</small>
+                    </span>
+                    <strong>For: <a href="{{ url_for('songs.song_detail', song_id=comment.song_id) }}">
+                            {{ comment.song_title }}
+                        </a>
+                    </strong> by {{ comment.song_artist }}
+                    <br>
+                    <br>
+                    <p>{{ comment.content }}</p>
+                    {% if comment.favorite %}
+                        <p>❤️  You love this!</p>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
