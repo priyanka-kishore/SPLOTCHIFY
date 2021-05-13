@@ -78,15 +78,9 @@ def create_playlist():
         # comment.save() # save user's new comment if submitted!
         # return redirect(request.path) # reload page
 
-    # mail testing (Remove)
-    msg = Message("Hello", sender='splotchifyapp@gmail.com', recipients=["priya.pianist@gmail.com"])
-    msg.body = "Hello Flask message sent from Flask-Mail"
-    mail.send(msg)
-    print("EMAIL SENT")
-
     return "here's the create a playlist form!"
 
-@songs.route("/submit-song", methods=["GET"])
+@songs.route("/submit-song", methods=["GET", "POST"])
 def submit_song():
     form = SubmitSongForm()
 
@@ -96,5 +90,26 @@ def submit_song():
         song_artist = form.song_artist.data
 
         print("sending email about [{}] by [{}]...".format(song_title, song_artist))
+        # mail testing (Remove)
+        msg = Message("Thank you for your Splotchify song submission!", recipients=[current_user.email])
+        msg.html = '''
+            <h1>Hello, {username}!</h1>
+            <br>
+            <h2>Thank you for submitting a song to our Splotchify database.</h2>
+            <br>
+            <h3>You submitted:</h3>
+            <p>Song: "{song}"</p>
+            <p>Artist: "{artist}"</p>
+            <br>
+            <p>We will review your song submission and add it to the database once approved. Thank you for supporting and contributing to the Splotchify community!</p>
+            <br>
+            <p>From the Splotchify Team :)</p>
+        '''.format(username=current_user.username, song=song_title, artist=song_artist)
+        
+        mail.send(msg)
+        print("EMAIL SENT")
 
-    return "this is where you submit a song to the database and you will receive an email confirming your request"
+        return render_template("submit_song.html", form=form, email_sent=True, user_email=current_user.email)
+        
+    # return "this is where you submit a song to the database and you will receive an email confirming your request"
+    return render_template("submit_song.html", form=form, email_sent=False, user_email=current_user.email)

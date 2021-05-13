@@ -74,6 +74,6 @@ class PlaylistForm(FlaskForm):
     create = SubmitField("Create playlist")
 
 class SubmitSongForm(FlaskForm):
-    song_title = StringField("Song title to add", validators=[InputRequired(), Length(min=1, max=40)])
-    song_artist = StringField("Song artist", validators=[InputRequired(), Length(min=1, max=40)])
+    song_title = StringField("New song's title", validators=[InputRequired(), Length(min=1, max=40)])
+    song_artist = StringField("New song's artist", validators=[InputRequired(), Length(min=1, max=40)])
     submit = SubmitField("Submit song")
