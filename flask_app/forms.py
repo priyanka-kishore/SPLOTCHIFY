@@ -16,32 +16,31 @@ from wtforms.validators import (
 from .models import User
 
 
-"""
-Search form to query database for specific songs
-- Song title
-"""
 class SearchForm(FlaskForm):
-    search_query = StringField(
-        "Query", validators=[InputRequired(), Length(min=1, max=100)]
-    )
+    """
+    Search form to query database for specific songs
+    - Song title
+    """
+    search_query = StringField("Query", validators=[InputRequired(), Length(min=1, max=100)])
     submit = SubmitField("Search")
 
-"""
-CommentForm to comment on and favorite specific songs
-"""
+
 class SongCommentForm(FlaskForm):
+    """
+    CommentForm to comment on and favorite specific songs
+    """
     text = TextAreaField("What do you think?", validators=[InputRequired(), Length(min=5, max=500)])
     favorited = BooleanField(default=True)
     submit = SubmitField("Comment")
 
-"""
-Registration form for users to create an account:
-- Username
-- Email
-- Password
-- Confirm Password
-"""
 class RegistrationForm(FlaskForm):
+    """
+    Registration form for users to create an account:
+    - Username
+    - Email
+    - Password
+    - Confirm Password
+    """
     username = StringField(
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
     )
@@ -74,14 +73,7 @@ class PlaylistForm(FlaskForm):
     description = StringField("Description of your playlist", validators=[Length(min=1, max=100)])
     create = SubmitField("Create playlist")
 
-# class UpdateUsernameForm(FlaskForm):
-#     username = StringField(
-#         "Username", validators=[InputRequired(), Length(min=1, max=40)]
-#     )
-#     submit = SubmitField("Update Username")
-
-#     def validate_username(self, username):
-#         if username.data != current_user.username:
-#             user = User.objects(username=username.data).first()
-#             if user is not None:
-#                 raise ValidationError("That username is already taken")
+class SubmitSongForm(FlaskForm):
+    song_title = StringField("Song title to add", validators=[InputRequired(), Length(min=1, max=40)])
+    song_artist = StringField("Song artist", validators=[InputRequired(), Length(min=1, max=40)])
+    submit = SubmitField("Submit song")

@@ -14,8 +14,8 @@ users = Blueprint("users", __name__)
 @users.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return "you're logged in! pretend this is the song index" # TODO: redirect to song index
-        # return redirect(url_for("movies.index"))
+        # return "you're logged in! pretend this is the song index" # TODO: redirect to song index
+        return redirect(url_for("songs.index"))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -31,8 +31,7 @@ def register():
 @users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return "you're logged in! pretend this is the song index" # TODO: redirect to song index since already logged in
-        # return redirect(url_for("movies.index")) 
+        return redirect(url_for("songs.index")) 
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -40,8 +39,7 @@ def login():
 
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            print("~ ~ ~ USER LOGIN SUCCESS")
-            return redirect(url_for("songs.index")) # TODO: redirect to song index after logging in
+            return redirect(url_for("songs.index"))
         else:
             flash("Login failed. Check your username and/or password")
             return redirect(url_for("users.login"))
@@ -53,27 +51,21 @@ def login():
 @login_required
 def logout():
     logout_user()
-    print("~ ~ ~ USER LOGOUT SUCCESS")
     return redirect(url_for("users.login"))
 
 @users.route("/profile/<user>", methods=["GET"])
 @login_required
 def profile(user):
-    # TODO: create a playlist of songs
-    # form = PlaylistForm()
-    # if form.validate_on_submit():
-        # comment = Comment(
-        #     commenter=current_user._get_current_object(),
-        #     favorite=form.favorited.data,
-        #     content=form.text.data,
-        #     date=current_time(),
-        #     song_id=song_id,
-        #     song_title=song_info['name'],
-        #     song_artist=song_info['artist']
-        # )
-        # comment.save() # save user's new comment if submitted!
-        # return redirect(request.path) # reload page
+    user_comments = Comment.objects(commenter=user)
 
-    user_comments = Comment.objects(commenter=current_user._get_current_object())
+    return render_template("profile.html", username=user, comments=user_comments)
 
-    return render_template("profile.html", username=current_user.username, comments=user_comments)
+# @users.route("/favorites", methods=["GET"])
+# @login_required
+# def get_favorites():
+#     return "these are the songs with favorites, from the comment database"
+
+# @users.route("/scores", methods=["GET"])
+# @login_required
+# def get_scores():
+#     return "there are the songs with scores, from the comment database"

@@ -11,6 +11,11 @@
         <ul class="navbar-nav ml-auto">
             {% if current_user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('songs.submit_song') }}">
+                        + Song
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('songs.create_playlist') }}">
                         + Playlist
                     </a>

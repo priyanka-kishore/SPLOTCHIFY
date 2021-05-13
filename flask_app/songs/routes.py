@@ -1,10 +1,11 @@
 from flask_app.utils import current_time
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
+from flask_mail import Message
 
-from .. import song_client
+from .. import song_client, mail
 from ..models import Comment, User
-from ..forms import SearchForm, SongCommentForm
+from ..forms import SearchForm, SongCommentForm, PlaylistForm, SubmitSongForm
 
 songs = Blueprint("songs", __name__)
 
@@ -43,7 +44,7 @@ def song_detail(song_id):
     form = SongCommentForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         comment = Comment(
-            commenter=current_user._get_current_object(),
+            commenter=current_user.username,
             favorite=form.favorited.data,
             content=form.text.data,
             date=current_time(),
@@ -58,6 +59,42 @@ def song_detail(song_id):
 
     return render_template("song_detail.html", form=form, song_info=song_info, comments=comments)
 
+
 @songs.route("/create-playlist", methods=["GET"])
 def create_playlist():
+    # TODO: create a playlist of songs
+    # form = PlaylistForm()
+    # if form.validate_on_submit():
+        # playlist = 
+        # comment = Comment(
+        #     commenter=current_user._get_current_object(),
+        #     favorite=form.favorited.data,
+        #     content=form.text.data,
+        #     date=current_time(),
+        #     song_id=song_id,
+        #     song_title=song_info['name'],
+        #     song_artist=song_info['artist']
+        # )
+        # comment.save() # save user's new comment if submitted!
+        # return redirect(request.path) # reload page
+
+    # mail testing (Remove)
+    msg = Message("Hello", sender='splotchifyapp@gmail.com', recipients=["priya.pianist@gmail.com"])
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    print("EMAIL SENT")
+
     return "here's the create a playlist form!"
+
+@songs.route("/submit-song", methods=["GET"])
+def submit_song():
+    form = SubmitSongForm()
+
+    if form.validate_on_submit():
+        # send an email to the user about their request
+        song_title = form.song_title.data
+        song_artist = form.song_artist.data
+
+        print("sending email about [{}] by [{}]...".format(song_title, song_artist))
+
+    return "this is where you submit a song to the database and you will receive an email confirming your request"

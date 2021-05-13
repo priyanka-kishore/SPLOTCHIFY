@@ -40,7 +40,7 @@ class Comment(db.Document):
     """
     A comment on a song submitted by a user
     """
-    commenter = db.ReferenceField(User, required=True)
+    commenter = db.StringField(required=True)
     favorite = db.BooleanField(required=True, default=False)
     content = db.StringField(required=True, min_length=5, max_length=500)
     date = db.StringField(required=True)
@@ -48,9 +48,9 @@ class Comment(db.Document):
     song_title = db.StringField(required=True, min_length=1, max_length=100)
     song_artist = db.StringField(required=True, min_length=1, max_length=100)
 
-# class Playlist(db.Document):
-#     """
-#     A playlist of songs created by the user
-#     """
-#     user = db.ReferenceField(User, required=True)
-#     songs = db.ListField(db.StringField())
+class Playlist(db.Document):
+    """
+    A playlist of songs created by the user
+    """
+    user = db.ReferenceField(User, required=True)
+    songs = db.ListField(db.StringField()) # of song_ids?

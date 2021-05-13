@@ -15,7 +15,7 @@ class Song(object):
         if lastfm_json['mbid']:
             self.mbid = lastfm_json['mbid']
         else: # generate new mbid
-            self.mbid = 'splotchify_id..{title}..{artist}'.format(title=self.title, artist=self.artist)
+            self.mbid = get_custom_song_id(self.title, self.artist)
     
     def __repr__(self):
         return "{title} -- {artist}".format(title=self.title, artist=self.artist)
@@ -126,6 +126,5 @@ class SongClient(object):
 
         
 
-
-
-
+def get_custom_song_id(title, artist):
+    return 'splotchify_id..{title}..{artist}'.format(title=title, artist=artist)

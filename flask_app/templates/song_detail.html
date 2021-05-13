@@ -139,8 +139,8 @@
             <span class="float-right">
                 <small>{{ comment.date }}</small>
             </span>
-            <a href="{{ url_for('songs.song_detail', song_id=song_info.song_id) }}">
-                <strong>@{{ comment.commenter.username }}</strong>
+            <a href="{{ url_for('users.profile', user=comment.commenter) }}">
+                <strong>@{{ comment.commenter }}</strong>
             </a>
             <p>
                 {{ comment.content }}

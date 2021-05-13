@@ -10,6 +10,7 @@ from flask_login import (
 )
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
+from flask_mail import Mail
 
 # stdlib
 from datetime import datetime
@@ -23,6 +24,7 @@ db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 song_client = SongClient(os.environ.get("LASTFM_API_KEY"))
+mail = Mail()
 
 
 # from .routes import main
@@ -41,9 +43,15 @@ def create_app(test_config=None):
     if test_config is not None:
         app.config.update(test_config)
 
+    # app.config['MAIL_PASSWORD'] = '$pL0tch1f4' # os.environ.get("MAIL_PASSWORD")
+    # app.config['MAIL_USERNAME'] = 'splotchifyapp@gmail.com' # os.environ.get("MAIL_SENDER")
+    # app.config['MAIL_PORT'] = 25
+
+    mail.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    
 
     app.register_blueprint(users)
     app.register_blueprint(songs)
