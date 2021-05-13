@@ -11,6 +11,7 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 from flask_mail import Mail
+from flask_talisman import Talisman
 
 # stdlib
 from datetime import datetime
@@ -47,10 +48,27 @@ def create_app(test_config=None):
     # app.config['MAIL_USERNAME'] = 'splotchifyapp@gmail.com' # os.environ.get("MAIL_SENDER")
     # app.config['MAIL_PORT'] = 25
 
+    app.config['MONGODB_HOST'] = os.environ.get("MONGODB_HOST")
+    
     mail.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    Talisman(
+        app,
+        content_security_policy={
+            'default-src': "\'self\'",
+            'style-src': [
+                'stackpath.bootstrapcdn.com',
+                "\'self\'"
+            ],
+            'script-src': [
+                'code.jquery.com',
+                'cdn.jsdelivr.net',
+                'stackpath.bootstrapcdn.com'
+            ]
+        }
+    )
     
 
     app.register_blueprint(users)

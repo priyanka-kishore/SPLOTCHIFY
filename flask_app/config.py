@@ -10,3 +10,5 @@ MAIL_USERNAME = os.environ.get("MAIL_SENDER")
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 MAIL_USE_SSL = True
 MAIL_DEFAULT_SENDER = os.environ.get("MAIL_SENDER")
+
+MONGODB_HOST = os.environ.get("MONGODB_HOST")
